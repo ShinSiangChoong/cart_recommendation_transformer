@@ -24,7 +24,7 @@ from model import Model
 def parse_args():
     parser = argparse.ArgumentParser(description='Process some arguments')
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--max_items_per_cart', type=int, default=7)
+    parser.add_argument('--max_items_per_cart', type=int, default=4)
     parser.add_argument('--item_emb_dim', type=int, default=256)
     parser.add_argument('--cat_emb_dim', type=int, default=256)
 
