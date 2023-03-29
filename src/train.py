@@ -50,10 +50,16 @@ def main(args):
     # read dataframe and define parameters
     df_cart = pd.read_parquet(args.cart_path)
     df_cart_item = pd.read_parquet(args.cart_item_path)
-    df_train = df_cart.loc[df_cart['test_row_indicator'] == 'TRAIN'].reset_index(drop=True)
+    df_train = df_cart.loc[
+        df_cart['test_row_indicator'] == 'TRAIN'
+    ].reset_index(drop=True)
     args.n_items = df_cart_item['product_idx'].max()
-    args.n_cats = df_cart_item.loc[df_train['event_id'].tolist(), 'category_idx'].max()
-    args.n_train_items = df_cart_item.loc[df_train['event_id'].tolist(), 'product_idx'].max()
+    args.n_cats = df_cart_item.loc[
+        df_train['event_id'].tolist(), 'category_idx'
+    ].max()
+    args.n_train_items = df_cart_item.loc[
+        df_train['event_id'].tolist(), 'product_idx'
+    ].max()
 
     # dataset and dataloader
     train_dataset = CartDataset(
@@ -72,7 +78,9 @@ def main(args):
         drop_last=True
     )
     val_dataset = CartDataset(
-        df_cart=df_cart.loc[df_cart['test_row_indicator'] == 'VAL'].reset_index(drop=True),
+        df_cart=df_cart.loc[
+            df_cart['test_row_indicator'] == 'VAL'
+        ].reset_index(drop=True),
         df_cart_item=df_cart_item,
         n_train_items=args.n_train_items,
         max_items=None, 
@@ -88,9 +96,13 @@ def main(args):
     )
 
     # model and paramater initialization
-    model = Model(args.n_items, args.n_cats, args.item_emb_dim, args.cat_emb_dim)
+    model = Model(
+        args.n_items, args.n_cats, args.item_emb_dim, args.cat_emb_dim
+    )
     model.cuda()
-    num_train_optimization_steps = args.epochs * len(train_loader) // args.accumulation_steps
+    num_train_optimization_steps = (
+        args.epochs * len(train_loader) // args.accumulation_steps
+    )
     warmup_steps = len(train_loader) // args.accumulation_steps
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     scheduler = get_cosine_schedule_with_warmup(
@@ -109,7 +121,9 @@ def main(args):
         avg_loss = 0
         tbar = tqdm(train_loader, total=len(train_loader))
         for i, (src, cat, _, target, att_mask) in enumerate(tbar):
-            src, cat, target, att_mask = src.cuda(), cat.cuda(), target.cuda(), att_mask.cuda()
+            src, cat, target, att_mask = (
+                src.cuda(), cat.cuda(), target.cuda(), att_mask.cuda()
+            )
             with torch.cuda.amp.autocast():
                 out = model(src, cat, att_mask)
                 loss = criterion(out.permute(0, 2, 1), target)
@@ -132,7 +146,11 @@ def main(args):
         with torch.inference_mode():
             for i, (src, cat, mask, target, att_mask) in enumerate(tbar):
                 src, cat, mask, target, att_mask = (
-                    src.cuda(), cat.cuda(), mask.cuda(), target.cuda(), att_mask.cuda()
+                    src.cuda(), 
+                    cat.cuda(), 
+                    mask.cuda(), 
+                    target.cuda(), 
+                    att_mask.cuda()
                 )
                 with torch.cuda.amp.autocast():
                     out = model(src, cat, att_mask)

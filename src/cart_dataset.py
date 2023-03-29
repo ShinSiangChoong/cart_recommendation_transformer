@@ -25,7 +25,9 @@ class CartDataset(Dataset):
 
     def __getitem__(self, idx):
         event_id = self.df_cart['event_id'].iloc[idx]
-        item_cats = self.df_cart_item.loc[event_id, ['product_idx', 'category_idx']]
+        item_cats = self.df_cart_item.loc[
+            event_id, ['product_idx', 'category_idx']
+        ]
         if self.is_train and len(item_cats) > self.max_items:
             item_cats = item_cats.sample(self.max_items)
         items = item_cats['product_idx'].tolist()
@@ -75,7 +77,9 @@ class CartDatasetProd(Dataset):
 
     def __getitem__(self, idx):
         event_id = self.df_cart['event_id'].iloc[idx]
-        item_cats = self.df_cart_item.loc[event_id, ['product_idx', 'category_idx']]
+        item_cats = self.df_cart_item.loc[
+            event_id, ['product_idx', 'category_idx']
+        ]
 
         items = item_cats['product_idx'].tolist() + [0]
         cats = item_cats['category_idx'].tolist() + [0]

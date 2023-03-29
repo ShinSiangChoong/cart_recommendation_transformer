@@ -21,7 +21,9 @@ from model import Model
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Process some arguments')
-    parser.add_argument('--weight_path', type=str, default="./outputs/best_model.bin")
+    parser.add_argument(
+        '--weight_path', type=str, default="./outputs/best_model.bin"
+    )
     args = parser.parse_args()
 
     args.cart_path = Path('./input/cart.parquet')
@@ -74,12 +76,18 @@ def main(args):
     with torch.inference_mode():
         for i, (src, cat, mask, target, att_mask) in enumerate(tbar):
             src, cat, mask, target, att_mask = (
-                src.to(device), cat.to(device), mask.to(device), target.to(device), att_mask.to(device)
+                src.to(device), 
+                cat.to(device), 
+                mask.to(device), 
+                target.to(device), 
+                att_mask.to(device)
             )
             with torch.cuda.amp.autocast():
                 out = model(src, cat, att_mask)
                 idx = torch.where(~mask)
-                y_true = F.one_hot(target[idx], num_classes=state_dict['n_items'])
+                y_true = F.one_hot(
+                    target[idx], num_classes=state_dict['n_items']
+                )
                 outs.append(out[idx].detach().cpu().numpy())
                 targets.append(y_true.detach().cpu().numpy())
     y_true = np.concatenate(targets)
