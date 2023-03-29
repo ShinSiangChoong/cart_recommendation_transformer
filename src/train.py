@@ -66,7 +66,7 @@ def main(args):
         df_cart=df_train,
         df_cart_item=df_cart_item,
         n_train_items=args.n_train_items,
-        max_items=args.max_items_per_cart, 
+        max_items_per_cart=args.max_items_per_cart, 
         is_train=True,
     )
     train_loader = DataLoader(
@@ -83,7 +83,7 @@ def main(args):
         ].reset_index(drop=True),
         df_cart_item=df_cart_item,
         n_train_items=args.n_train_items,
-        max_items=None, 
+        max_items_per_cart=None, 
         is_train=False
     )
     val_loader = DataLoader(
