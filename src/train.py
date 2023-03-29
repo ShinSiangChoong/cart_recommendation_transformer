@@ -28,7 +28,7 @@ def parse_args():
     parser.add_argument('--item_emb_dim', type=int, default=256)
     parser.add_argument('--cat_emb_dim', type=int, default=256)
 
-    parser.add_argument('--epochs', type=int, default=1)
+    parser.add_argument('--epochs', type=int, default=50)
     parser.add_argument('--batch_size', type=int, default=1024)
     parser.add_argument('--accumulation_steps', type=int, default=1)
     parser.add_argument('--lr', type=float, default=1e-4)
