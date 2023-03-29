@@ -28,7 +28,7 @@ def parse_args():
     parser.add_argument('--item_emb_dim', type=int, default=256)
     parser.add_argument('--cat_emb_dim', type=int, default=256)
 
-    parser.add_argument('--epochs', type=int, default=50)
+    parser.add_argument('--epochs', type=int, default=1)
     parser.add_argument('--batch_size', type=int, default=1024)
     parser.add_argument('--accumulation_steps', type=int, default=1)
     parser.add_argument('--lr', type=float, default=1e-4)
@@ -50,7 +50,7 @@ def main(args):
     # read dataframe and define parameters
     df_cart = pd.read_parquet(args.cart_path)
     df_cart_item = pd.read_parquet(args.cart_item_path)
-    df_train = df_cart.loc[df_cart['test_row_indicator'] == 'TRAIN'].reset_index(drop=True).head(4096)
+    df_train = df_cart.loc[df_cart['test_row_indicator'] == 'TRAIN'].reset_index(drop=True)
     args.n_items = df_cart_item['product_idx'].max()
     args.n_cats = df_cart_item.loc[df_train['event_id'].tolist(), 'category_idx'].max()
     args.n_train_items = df_cart_item.loc[df_train['event_id'].tolist(), 'product_idx'].max()
@@ -72,7 +72,7 @@ def main(args):
         drop_last=True
     )
     val_dataset = CartDataset(
-        df_cart=df_cart.loc[df_cart['test_row_indicator'] == 'VAL'].reset_index(drop=True).head(10),
+        df_cart=df_cart.loc[df_cart['test_row_indicator'] == 'VAL'].reset_index(drop=True),
         df_cart_item=df_cart_item,
         n_train_items=args.n_train_items,
         max_items=None, 
@@ -163,6 +163,7 @@ def main(args):
         # early stopping
         if non_improving_epoch >= 3:
             break 
+
 
 if __name__ == '__main__':
     args = parse_args()
