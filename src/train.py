@@ -196,7 +196,7 @@ def main(args):
 if __name__ == '__main__':
     args = parse_args()
     wandb.init(
-        project="AI4Code Nested Transformer",
+        project="Cart Recommendation Transformer",
         name=args.wandb_name,
         mode=args.wandb_mode,
     )
