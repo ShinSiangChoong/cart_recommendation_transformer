@@ -24,10 +24,13 @@ def parse_args():
     parser.add_argument(
         '--weight_path', type=str, default="./outputs/best_model.bin"
     )
+    parser.add_argument(
+        '--cart_path', type=str, default='input/cart.parquet'
+    )
+    parser.add_argument(
+        '--cart_item_path', type=str, default='input/cart_item.parquet'
+    )
     args = parser.parse_args()
-
-    args.cart_path = Path('./input/cart.parquet')
-    args.cart_item_path = Path('./input/cart_item.parquet')
 
     return args
 
@@ -47,7 +50,7 @@ def main(args):
         df_cart=df_cart_test,
         df_cart_item=df_cart_item,
         n_train_items=state_dict['n_train_items'],
-        max_items=None,
+        max_items_per_cart=None,
         is_train=False
     )
     test_loader = DataLoader(

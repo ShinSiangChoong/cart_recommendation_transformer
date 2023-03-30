@@ -37,9 +37,15 @@ def parse_args():
     parser.add_argument('--wandb_mode', type=str, default="disabled")
     parser.add_argument('--wandb_name', type=str, default=None)
 
-    parser.add_argument('--cart_path', type=str, default='input/cart.parquet')
-    parser.add_argument('--cart_item_path', type=str, default='input/cart_item.parquet')
-
+    parser.add_argument(
+        '--cart_path', type=str, default='input/cart.parquet'
+    )
+    parser.add_argument(
+        '--cart_item_path', type=str, default='input/cart_item.parquet'
+    )
+    parser.add_argument(
+        '--output_dir', type=str, default='./outputs'
+    )
     args = parser.parse_args()
 
     return args
@@ -170,6 +176,11 @@ def main(args):
                 'optim_state': optimizer.state_dict(),
                 'scheduler_state': scheduler.state_dict(),
                 'epoch': epoch,
+                'n_items': args.n_items, 
+                'n_cats': args.n_cats, 
+                'n_train_items': args.n_train_items, 
+                'item_emb_dim': args.item_emb_dim, 
+                'cat_emb_dim': args.cat_emb_dim,
                 'val_ndcg': ndcg,
                 'train_loss': avg_loss
             })
