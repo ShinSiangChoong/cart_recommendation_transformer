@@ -30,5 +30,5 @@ pip install -e .
 python src/train.py --epochs 50 --cart_path './input/cart.parquet' --cart_item_path './input/cart_item.parquet'
 # You can easily change other hyperparameters by checking out the `parse_args` function in src/train.py
 
-# Evaluation
+# evaluation
 python src/eval.py --cart_path './input/cart.parquet' --cart_item_path './input/cart_item.parquet'
