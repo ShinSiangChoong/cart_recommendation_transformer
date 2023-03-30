@@ -36,12 +36,11 @@ def parse_args():
 
     parser.add_argument('--wandb_mode', type=str, default="disabled")
     parser.add_argument('--wandb_name', type=str, default=None)
-    parser.add_argument('--output_dir', type=str, default="./outputs")
+
+    parser.add_argument('--cart_path', type=str, default='input/cart.parquet')
+    parser.add_argument('--cart_item_path', type=str, default='input/cart_item.parquet')
 
     args = parser.parse_args()
-
-    args.cart_path = Path('./input/cart.parquet')
-    args.cart_item_path = Path('./input/cart_item.parquet')
 
     return args
 
@@ -55,10 +54,10 @@ def main(args):
     ].reset_index(drop=True)
     args.n_items = df_cart_item['product_idx'].max()
     args.n_cats = df_cart_item.loc[
-        df_train['event_id'].tolist(), 'category_idx'
+        df_train['cart_id'].tolist(), 'category_idx'
     ].max()
     args.n_train_items = df_cart_item.loc[
-        df_train['event_id'].tolist(), 'product_idx'
+        df_train['cart_id'].tolist(), 'product_idx'
     ].max()
 
     # dataset and dataloader

@@ -34,7 +34,7 @@ class CartDataset(Dataset):
         return len(self.df_cart)
 
     def __getitem__(self, idx):
-        event_id = self.df_cart['event_id'].iloc[idx]
+        event_id = self.df_cart['cart_id'].iloc[idx]
         item_cats = self.df_cart_item.loc[
             event_id, ['product_idx', 'category_idx']
         ]
@@ -93,7 +93,7 @@ class CartDatasetProd(Dataset):
         return len(self.df_cart)
 
     def __getitem__(self, idx):
-        event_id = self.df_cart['event_id'].iloc[idx]
+        event_id = self.df_cart['cart_id'].iloc[idx]
         item_cats = self.df_cart_item.loc[
             event_id, ['product_idx', 'category_idx']
         ]
