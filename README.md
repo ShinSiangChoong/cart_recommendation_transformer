@@ -32,7 +32,3 @@ python src/train.py --epochs 50 --cart_path './input/cart.parquet' --cart_item_p
 
 # Evaluation
 python src/eval.py --cart_path './input/cart.parquet' --cart_item_path './input/cart_item.parquet'
-
-
-
-
