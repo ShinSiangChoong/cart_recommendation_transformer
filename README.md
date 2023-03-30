@@ -1,7 +1,7 @@
 Cart Recommendation Transformer
 ===============================
 
-The Cart Recommendation Transformer is a Machine Learning model that predicts items that may be of interest to a user based on the existing items in the shopping cart. The model is trained on a set completion task by masking certain items in the cart and then predicting the missing item(s) using a Transformer architecture. It can be applied by any ecommerce business to make recommendation to the users who view their shopping carts. 
+The Cart Recommendation Transformer is a Machine Learning model that predicts items that may be of interest to a user based on the existing items in the shopping cart. The model is trained on a set completion task by masking certain items in the cart and then predicting the missing item(s) using a Transformer architecture. It can be applied by any ecommerce business to make recommendation to the users when they view their shopping carts. 
 
 Note that the it is assumed that the items in the cart are positional invariant, hence positional encoding is not used.
 
